@@ -1,0 +1,43 @@
+body {
+    width: 100vw;
+    display: flex;
+}
+
+#todo-list {
+    height: 90vh;
+    background-color: cornsilk;
+    flex: 1;
+    padding: 10px;
+    margin:10px;
+    display: flex;
+    flex-direction: column;
+}
+
+#items {
+    height: 90vh;
+    background-color: cornsilk;
+    flex: 4;
+    padding: 10px;
+    margin: 10px;
+}
+
+#list-button {
+    padding: 0.5em 1em;
+    margin: 0.3em 0;
+    text-align: left;
+}
+
+.list-item {
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    background-color: antiquewhite;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.date {
+    color: red;
+    text-decoration: underline;
+}
