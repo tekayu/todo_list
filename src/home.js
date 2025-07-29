@@ -1,10 +1,13 @@
-import Todo from "./todo.js";
-import reload from "./reload.js";
-
-const todos = document.querySelector("#todos");
+import Todo from "./manage_todo.js";
+import newTodo from "./new_todo.js";
+import { loadLocalStorage, testTodo, getStoredData } from "./local_storage.js";
+import { loadLists } from "./manage_lists.js";
 
 export default function loadHome () {
-    reload(todos);
-    const doLaundry = new Todo("Do laundry", "12/01/25");
-    const makeDinner = new Todo("Make dinner", "12/01/25");
-}
+    let homeTodos = [];
+    // loadLocalStorage("homeTodos", homeTodos);
+    // newTodo("homeTodos", homeTodos);
+    testTodo();
+    const storedData = getStoredData();
+    console.log(storedData);
+};
