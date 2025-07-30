@@ -1,23 +1,5 @@
 import Todo from "./manage_todo";
-
-const lists = [];
-
-export function loadLocalStorage() {
-    if (localStorage.getItem() == null) {
-        return
-    } else {
-        const localArr = localStorage.getItem();
-        lists = JSON.parse(localArr);
-        // localArr.forEach((el) => {
-        //     lists.push(el);
-        // })
-    }
-}
-
-export function updateLocalStorage(key, arr) {
-    const arrAsString = JSON.stringify(arr);
-    localStorage.setItem(key, arrAsString);
-}
+import { loadListData } from "./manage_lists";
 
 export function getStoredData () {
     if (localStorage.getItem("lists") == null) {
@@ -28,18 +10,77 @@ export function getStoredData () {
     }
 }
 
+export function addList(newListObj) {
+    let storedArr = getStoredData();
+    storedArr.push(newListObj);
+    const arrAsString = JSON.stringify(storedArr);
+    localStorage.setItem("lists", arrAsString);
+};
+
+export function removeList(listName) {
+    let storedArr = getStoredData();
+    for (let todo in storedArr) {
+        if (storedArr[todo].listName === listName) {
+            storedArr.splice(todo, 1);
+        }
+    };
+    const arrAsString = JSON.stringify(storedArr);
+    localStorage.setItem("lists", arrAsString);
+}
+
+export function addTodo(listNameItem, todoObj) {
+    let storedArr = getStoredData();
+    for (let list in storedArr) {
+        if (storedArr[list].listName === listNameItem) {
+            storedArr[list].todos.push(todoObj);
+            const arrAsString = JSON.stringify(storedArr);
+            localStorage.setItem("lists", arrAsString);
+            return;
+        };
+    };
+};
+
+function findTodoOnClick(listName, todoName) {
+    let storedArr = getStoredData()
+    for (let list in storedArr) {
+        if (storedArr[list].listName === listName) {
+            for (let todo in storedArr[list].todos) {
+                if (storedArr[list].todos[todo].name === todoName) {
+                    return storedArr[list].todos[todo];
+                };
+            };
+        };
+    };
+};
+
+export function removeTodo(listName, todoName) {
+    const todoObj = findTodoOnClick(listName, todoName);
+    console.log(todoObj.name)
+    const storedArr = getStoredData();
+    for (let list in storedArr) {
+        if (storedArr[list].listName == listName) {
+            for (let todo in storedArr[list].todos) {
+                if (storedArr[list].todos[todo].name == todoObj.name) {
+                    storedArr[list].todos.splice(todo, 1);
+                    const arrAsString = JSON.stringify(storedArr);
+                    localStorage.setItem("lists", arrAsString);
+                };
+            };
+        };
+    };
+};
+
+const clean = new Todo("clean", "11-11-11");
+const cook = new Todo("cook", "12-12-12");
+
 export function testTodo() {
     const testLists = [
         {
             listName: "Weekly",
             todos: [
                 {
-                    name: "clean",
-                    date: "11-11-11",
-                },
-                {
-                    name: "cook dinner",
-                    date: "12-1-9",
+                    name: clean.name,
+                    date: clean.date,
                 },
             ],
         },
@@ -47,12 +88,8 @@ export function testTodo() {
             listName: "Monthly",
             todos: [
                 {
-                    name: "wash car",
-                    date: "1-2-23",
-                },
-                {
-                    name: "mow garden",
-                    date: "12-3-12",
+                    name: cook.name,
+                    date: cook.date,
                 },
             ],
         }     

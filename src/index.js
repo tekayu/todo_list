@@ -1,31 +1,57 @@
 import "./styles.css";
-import loadHome from "./home";
-import loadPersonal from "./personal";
-import loadPriority from "./priority";
-import newTodo from "./new_todo";
-import { loadLists, newList, loadListTodos } from "./manage_lists";
+import loadHome, { addDivHeader } from "./home";
+import { loadLists, newList, loadListTodos, showList, deleteList } from "./manage_lists";
+import { newTodo, showTodo, deleteTodo } from "./new_todo";
 import { testTodo } from "./local_storage";
 
-// const homeBtn = document.querySelector("#home-btn");
-// const personalBtn = document.querySelector("#personal-btn");
-// const priorityBtn = document.querySelector("#priority-btn");
+// testTodo();
+loadHome();
+loadLists();
 
 const newListBtn = document.querySelector("#new-list");
+const submitListBtn = document.querySelector("#submit-list-modal");
+const homeBtn = document.querySelector("#home-btn");
+const newTodoBtn = document.querySelector(".new-todo");
+const submitTodoBtn = document.querySelector("#submit-modal");
 
-const newBtn = document.querySelector("#new-todo");
+const userList = document.querySelector("#user-list")
+const todoList = document.querySelector("#todos");
 
-const deleteBtn = document.querySelector("#delete-btn")
+todoList.addEventListener("click", (event) => {
+    if(event.target.classList == "todo-delete-btn") {
+        deleteTodo(newTodoBtn.id, event.target.id);
+        loadListTodos(newTodoBtn.id);
+    }
+});
 
-// homeBtn.addEventListener("click", () => loadHome());
-// personalBtn.addEventListener("click", () => loadPersonal());
-// priorityBtn.addEventListener("click", () => loadPriority());
 
 newListBtn.addEventListener("click", () => {
-    newList();
+    showList();
 })
 
+submitListBtn.addEventListener("click", () => {
+    newList();
+});
 
-testTodo();
-loadLists();
-loadListTodos("Weekly");
+homeBtn.addEventListener("click", () => loadHome());
 
+userList.addEventListener("click", (event) => {
+    if (event.target.classList.contains("list-button")) {
+        addDivHeader(event.target.textContent);
+        loadListTodos(event.target.textContent);
+    }
+});
+
+userList.addEventListener("click", (event) => {
+    if (event.target.classList.contains("list-del-btn")) {
+        deleteList(event.target.id);
+    }
+});
+
+newTodoBtn.addEventListener("click", () => {
+    showTodo();
+})
+
+submitTodoBtn.addEventListener("click", () => {
+    newTodo(newTodoBtn.id);
+})

@@ -1,28 +1,60 @@
-import Todo from "./manage_todo";
-import { loadLocalStorage, updateLocalStorage } from "./local_storage.js";
+import { addTodo, getStoredData, removeTodo } from "./local_storage.js";
+import Todo from "./manage_todo.js";
+import { loadListData, loadLists, loadListTodos } from "./manage_lists.js";
 
 const newTodoModal = document.querySelector("#new-todo-modal");
 const name = newTodoModal.querySelector("#name");
 const date = newTodoModal.querySelector("#date");
 
 const modalSubmitBtn = document.querySelector("#submit-modal");
-const newTodoBtn = document.querySelector("#new-todo");
 
-export default function newTodo(key, todoArr) {
-    newTodoBtn.addEventListener("click", () => {
-        showModal();
-        modalSubmitBtn.addEventListener("click", () => {
-            if (name.value !== "" && date.value !== "") {
-                addTodo(key, todoArr);
-            } else {
-                alert("Fill todo param");
-                return;
+export function showTodo(listName) {
+    name.value = "";
+    date.value = "";
+    showModal();
+    // modalSubmitBtn.addEventListener("click", () => {
+    //     if (name.value == "" || date.value == "") {
+    //         alert("fill in todo param");
+    //         return;
+    //     } else {
+    //         let newTodoObj = new Todo (name.value, date.value)
+    //         newTodoObj.displayTodo();
+    //         let todoObj = {
+    //             "name": name.value,
+    //             "date": date.value
+    //         }
+    //         addTodo(listName, todoObj);
+    //         hideModal();
+    //         return;
+    //     };
+    // });
+};
+
+export function newTodo(listName) {
+    if (name.value == "" || date.value == "") {
+            alert("fill in todo param");
+            return;
+        } else {
+            let newTodoObj = new Todo (name.value, date.value)
+            newTodoObj.displayTodo();
+            let todoObj = {
+                "name": name.value,
+                "date": date.value,
             }
-            updateLocalStorage(key, todoArr);
-            loadLocalStorage(key, todoArr);
-        });
-    });
+            addTodo(listName, todoObj);
+            hideModal();
+            return;
+        };
 }
+
+export function deleteTodo(listName, todoName) {
+    const listArr = loadListData(listName);
+    for (let todo in listArr) {
+        if (listArr[todo].name === todoName) {
+            removeTodo(listName, listArr[todo].name);
+        }
+    }
+};
 
 function showModal () {
     // Make the modal visible
@@ -36,13 +68,11 @@ function showModal () {
 };
 
 function hideModal () {
-    name.value = "";
-    date.value = "";
     newTodoModal.style.display = "none";
 }
 
-function addTodo (key, todoArr) {
-    const newTodo =  new Todo(name.value, date.value);
-    todoArr.push(newTodo);
-    hideModal();
-}
+// function addTodo (key, todoArr) {
+//     const newTodo =  new Todo(name.value, date.value);
+//     todoArr.push(newTodo);
+//     hideModal();
+// }

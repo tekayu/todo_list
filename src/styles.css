@@ -11,6 +11,22 @@ body {
     margin:10px;
     display: flex;
     flex-direction: column;
+    text-align: center;
+}
+
+#user-list {
+    height: 90vh;
+    background-color: cornsilk;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.list-div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.8em;
 }
 
 #items {
@@ -19,6 +35,7 @@ body {
     flex: 4;
     padding: 10px;
     margin: 10px;
+    overflow: auto;
 }
 
 .list-button {
@@ -82,4 +99,11 @@ body {
 
 input#name {
     margin-right: 30px;
+}
+
+#new-list {
+    width: 50%;
+    margin: 0 auto;
+    margin-bottom: 1.5em;
+    padding: 0.7em;
 }
